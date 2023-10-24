@@ -4,22 +4,25 @@
 s = list(map(int, input("Введите элементы списка в одну строку через пробел: ").split()))  # формирование списка
 n = len(s)
 
-even_posl = []  # текущая последовательность
-longest_posl = []  # наибольшая последовательность
+even_sequence = []  # текущая последовательность
+longest_sequence = []  # наибольшая последовательность
 
 # Блок нахождения длинейшей последовательности
-for i in range(n - 1):
-    f = s[i + 1] / s[i] if s[i] != 0 else 1
-    if s[i] % 2 == 0 and s[i + 1] % 2 == 0 and f < 0:
-        if s[i] * f == s[i + 1]:
-            even_posl.append(s[i])
-            longest_posl = max(even_posl, longest_posl, key=len)
+for i in range(n):
+    if s[i] % 2 == 0 and len(even_sequence) == 0:
+        even_sequence.append(s[i])
+    elif s[i] % 2 == 0 and even_sequence[-1] * s[i] < 0:
+        even_sequence.append(s[i])
+        longest_sequence = max(even_sequence, longest_sequence, key=len)
+    elif s[i] % 2 == 0 and even_sequence[-1] * s[i] > 0:
+        even_sequence = [s[i]]
     else:
-        even_posl = []
+        even_sequence = []
 
 # Блок вывода
-if longest_posl:
+if longest_sequence:
     print(
-        f"Наиболее длинная непрерывная знакочередующаяася последовательность четных чисел: {' '.join(map(str, longest_posl))}")
+        f"Наиболее длинная последовательность1: {' '.join(map(str, longest_sequence))}"
+    )
 else:
     print("Нету такой последовательности")

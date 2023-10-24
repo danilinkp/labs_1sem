@@ -6,19 +6,21 @@ n = len(s)
 k = int(input("Введите номер экстремума: "))
 
 k_e = 0  # К-ый экстремум
+ind_k_e = 0
 c = 0  # счетчик экстремума
 is_k_in_s = False  # Флаг есть ли к-ый экстремум в списке
 
 # Блок вычисления к-ого экстремума
 for i in range(1, n - 1):
-    if s[i - 1] < s[i] > s[i + 1] or s[i - 1] > s[i] < s[i + 1]:
+    if (s[i - 1] < s[i] and s[i] > s[i + 1]) or (s[i - 1] > s[i] and s[i] < s[i + 1]):
         c += 1
-    if c == k:
-        k_e = s[i]
-        is_k_in_s = True
+        if c == k:
+            k_e = s[i]
+            ind_k_e = i
+            is_k_in_s = True
 
 # Блок вывода
 if is_k_in_s:
-    print(f"К-ый экстремум: {k_e}")
+    print(f"К-ый экстремум: {k_e} и его индекс: {ind_k_e}")
 else:
     print(f'Значение K-го экстремума в списке найти не удалось')

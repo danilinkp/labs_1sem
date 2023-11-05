@@ -4,6 +4,7 @@
 # Блок ввода матрицы
 n, m = map(int, input("Введите размер матрицы (сначала кол-во строк, затем столбоцов): ").split())
 
+# Блок проверки на правильность ввода
 while n <= 0 or m <= 0:
     print('Ошибка размер должен быть больше 0')
     n = int(input('Введите количество строк: '))
@@ -12,10 +13,10 @@ while n <= 0 or m <= 0:
 print("Введите матрицу:")
 matrix = [[int(elem) for elem in input().split()] for row in range(n)]
 
-max_negative = -1
-min_negative = -1
-c_min_negative = m + 1
-c_max_negative = 0
+max_negative = -1  # индекс с наибольшим отрицательными
+min_negative = -1  # индекс с наименьшим отрицательными
+c_min_negative = m + 1  # счетчик минимальных отрицательных
+c_max_negative = 0  # счетчик наибольших отрицательных
 
 # Блок вычисления
 for i in range(n):
@@ -38,7 +39,6 @@ if max_negative == -1 or min_negative == -1:
     print('Отрицательных элементов нет')
 else:
     print("Полученная матрица:")
-
     for i in range(n):
         tmp = ''
         for j in range(m):

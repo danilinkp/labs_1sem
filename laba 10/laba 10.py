@@ -16,18 +16,12 @@ from math import *
 
 def f(x: float):
     """Функция вычисления заданной математической функции"""
-    try:
-        return x ** 2
-    except Exception:
-        return "Функция в этой точке неопределена"
+    return x ** 2
 
 
 def F(x: float):
     """Функция вычисления заданной первообразной"""
-    try:
-        return (x ** 3) / 3
-    except Exception:
-        return "Первообразная в этой точке неопределена"
+    return (x ** 3) / 3
 
 
 def method_left_rectangles(start: float, end: float, n: int, f):
@@ -37,7 +31,7 @@ def method_left_rectangles(start: float, end: float, n: int, f):
     h = (end - start) / n  # Шаг разбиения
     x = start  # Точка вычисления
     integral = 0  # значение интеграла
-    for i in range(1, n):
+    for i in range(n):
         integral += h * f(x)
         x += h
     return integral
@@ -50,11 +44,16 @@ def method_three_eights(start: float, end: float, n: int, f):
     h = (end - start) / n  # Шаг разбиения
     x0 = start  # Точка вычисления
     x1 = start + h
+    x2 = start + 2 * h
+    x3 = start + 3 * h
     integral = 0  # значение интеграл
     for i in range(n):
-        integral += h * (f(x0) + 3 * f((2 * x0 + x1) / 3) + 3 * f((x0 + 2 * x1) / 3) + f(x1)) / 8
+        # integral += h * (f(x0) + 3 * f((2 * x0 + x1) / 3) + 3 * f((x0 + 2 * x1) / 3) + f(x1)) / 8
+        integral += h * (f(x0) + 3 * f(x1) + 3 * f(x2) + f(x3)) / 8
         x0 += h
         x1 += h
+        x2 += h
+        x3 += h
     return integral
 
 
@@ -73,27 +72,35 @@ def make_table(name: str, first_value: float, second_value: float, third_value: 
     print('-' * 67 + '\n')
 
 
-start = end = n1 = n2 = None  # Начало и конец отрезка интегрирования кол-ва участков разбиения соответственно
-while start is None or end is None:
-    try:
-        start, end = map(float, input("Введите начало и конец отрезка интегрирования: ").split())
-        if start >= end:
-            start = end = None
-            raise Exception
-    except Exception:
-        print('Началом и концом отрезка интегрирования могут быть только вещественные числа' +
-              ' и начало должно быть строго меньше чем конец' +
-              '\nПовторите попытку ввода:')
+start = input('Введите начало отрезка: ')
+while not (start.replace('.', '').replace('-', '').isdigit()):
+    print('Началом отрезка интегрирования могут быть только вещественные числа' +
+          '\nПовторите попытку ввода: ')
+    start = input('Введите начало отрезка: ')
+start = float(start)
 
-while n1 is None or n2 is None:
-    try:
-        n1, n2 = map(int, input("Введите n1 и n2 (количества участков разбиения): ").split())
-        if n1 <= 0 or n2 <= 0:
-            n1 = n2 = None
-            raise Exception
-    except Exception:
-        print('Количества участков разбиения (n1 и n2) могут быть только целые числа больше 0!' +
-              '\nПовторите попытку ввода:')
+end = input('Введите конец отрезка: ')
+while not end.replace('.', '').replace('-', '').isdigit() or float(end) <= start:
+    print('Концом отрезка интегрирования могут быть только вещественные числа' +
+          ' и начало должно быть строго меньше чем конец' +
+          '\nПовторите попытку ввода:')
+    end = input('Введите конец отрезка: ')
+end = float(end)
+
+n1 = input('Кол-во участков разбиения (n1), кратное 3 и неотрицательное: ')
+while not n1.replace('-', '').isdigit() or int(n1) < 0 or int(n1) % 3 != 0:
+    print('Количество участков разбиения n1 может быть только целое число больше 0 и кратное 3!' +
+          '\nПовторите попытку ввода:')
+    n1 = input('Кол-во участков разбиения (n1), кратное 3 и неотрицательное: ')
+n1 = int(n1)
+
+n2 = input('Кол-во участков разбиения (n2), кратное 3 и неотрицательное: ')
+while not n2.replace('-', '').isdigit() or int(n2) % 3 != 0 or int(n2) < 0:
+    print('Количество участков разбиения n2 может быть только целое число больше 0 и кратное 3!' +
+          '\nПовторите попытку ввода:')
+    n2 = input('Кол-во участков разбиения (n2), кратное 3 и неотрицательное: ')
+n2 = int(n2)
+
 # значения интегралов вычисленного методом левых треугольников
 first_integral_N1 = method_left_rectangles(start, end, n1, f)
 first_integral_N2 = method_left_rectangles(start, end, n2, f)
@@ -146,7 +153,11 @@ else:
 
 print(f"Наименее точный метод это: {inexact_method_name}")
 
-eps = float(input("Введите точность измерения для наименее точного метода: "))
+eps = input("Введите точность измерения для наименее точного метода: ")
+while not (eps.replace('.', '').replace('-', '').isdigit()):
+    print("Точность измерения должно быть вещественным числом \nПовторите попытку: ")
+    eps = input("Введите точность измерения для наименее точного метода: ")
+eps = float(eps)
 
 n = 2  # кол-во участков разбиения
 integral_1 = inexact_method(start, end, n, f)

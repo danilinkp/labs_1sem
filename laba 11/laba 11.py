@@ -1,6 +1,6 @@
 # Павлов Д. В. ИУ7-13б
 
-# Меиод "Расчёсок"
+# Метод "Расчёсок"
 # Написать программу для демонстрации работы метода сортировки (по варианту) на
 # примере массива целых чисел.
 # Программа должна состоять из двух частей (этапов работы) и выполнять два действия
@@ -67,7 +67,7 @@ def sorted_arr(n: int) -> tuple:
     permutations = comb_sort(arr)
     end_time = time.time()
     total_time = end_time - start_time
-    return permutations, total_time
+    return total_time, permutations
 
 
 def reverse_sorted_arr(n: int) -> tuple:
@@ -76,7 +76,7 @@ def reverse_sorted_arr(n: int) -> tuple:
     permutations = comb_sort(arr)
     end_time = time.time()
     total_time = end_time - start_time
-    return permutations, total_time
+    return total_time, permutations
 
 
 def random_arr(n: int) -> tuple:
@@ -85,24 +85,55 @@ def random_arr(n: int) -> tuple:
     permutations = comb_sort(arr)
     end_time = time.time()
     total_time = end_time - start_time
-    return permutations, total_time
+    return total_time, permutations
 
 
-arr = input_array()
-comb_sort(arr)
-print(f"Отсортированный массив: {' '.join(map(str, arr))}")
+def make_table(*args):
+    researches = [i for i in args]
+    print('-' * 103)
+    print('|' + ' ' * 20 + '|' + f'{"N1":^26}' + '|' + f'{"N2":^26}' + '|' + f'{"N3":^26}' + '|')
+    print('-' * 103)
+    print(
+        '|' + ' ' * 20 + '|' + f'{"время":^11}' + '|' + f'{"перестановки":^14}' + '|' + f'{"время":^11}' + '|' +
+        f"{'перестановки':^14}" + '|' + f'{"время":^11}' + '|' + f"{'перестановки':^14}" + '|')
+    print('-' * 103)
+    print(
+        '|' + f'{"Упорядоченный":^20}' + '|' + f'{researches[0][0]:^11.5g}' + '|' + f'{researches[0][1]:^14.5g}' + '|'
+        + f'{researches[1][0]:^11.5g}' + '|' + f"{researches[1][1]:^14.5g}" +
+        '|' + f'{researches[2][0]:^11.5g}' + '|' + f"{researches[2][1]:^14.5g}" + '|')
+    print('-' * 103)
+    print(
+        '|' + f'{"Oбратный":^20}' + '|' + f'{researches[3][0]:^11.5g}' + '|' + f'{researches[3][1]:^14.5g}' + '|'
+        + f'{researches[4][0]:^11.5g}' + '|' + f"{researches[4][1]:^14.5g}" +
+        '|' + f'{researches[5][0]:^11.5g}' + '|' + f"{researches[5][1]:^14.5g}" + '|')
+    print('-' * 103)
+    print(
+        '|' + f'{"Случайный":^20}' + '|' + f'{researches[6][0]:^11.5g}' + '|' + f'{researches[6][1]:^14.5g}' + '|'
+        + f'{researches[7][0]:^11.5g}' + '|' + f"{researches[7][1]:^14.5g}" +
+        '|' + f'{researches[8][0]:^11.5g}' + '|' + f"{researches[8][1]:^14.5g}" + '|')
+    print('-' * 103)
 
-n1, n2, n3 = input_sizes()
 
-t1, k1 = sorted_arr(n1)
-t4, k4 = reverse_sorted_arr(n1)
-t7, k7 = random_arr(n1)
+def main():
+    arr = input_array()
+    comb_sort(arr)
+    print(f"Отсортированный массив: {' '.join(map(str, arr))}")
 
-t2, k2 = sorted_arr(n2)
-t5, k5 = reverse_sorted_arr(n2)
-t8, k8 = random_arr(n2)
+    n1, n2, n3 = input_sizes()
 
-t3, k3 = sorted_arr(n3)
-t6, k6 = reverse_sorted_arr(n3)
-t9, k9 = random_arr(n3)
+    t1, k1 = sorted_arr(n1)
+    t4, k4 = reverse_sorted_arr(n1)
+    t7, k7 = random_arr(n1)
 
+    t2, k2 = sorted_arr(n2)
+    t5, k5 = reverse_sorted_arr(n2)
+    t8, k8 = random_arr(n2)
+
+    t3, k3 = sorted_arr(n3)
+    t6, k6 = reverse_sorted_arr(n3)
+    t9, k9 = random_arr(n3)
+
+    make_table((t1, k1), (t2, k2), (t3, k3), (t4, k4), (t5, k5), (t6, k6), (t7, k7), (t8, k8), (t9, k9))
+
+
+main()

@@ -18,7 +18,7 @@ def input_array() -> list:
     array = None
     while array is None:
         try:
-            array = list(map(int, input("Введите массив целочисленных чисел: ").split()))
+            array = list(map(int, input("Введите массив целых чисел: ").split()))
             if len(array) == 0:
                 array = None
                 raise ValueError
@@ -49,6 +49,7 @@ def comb_sort(arr: list) -> int:
 
 
 def input_sizes() -> tuple:
+    """Функция ввода размеров массивов"""
     n1 = n2 = n3 = None
     while n1 is None or n2 is None or n3 is None:
         try:
@@ -62,7 +63,8 @@ def input_sizes() -> tuple:
 
 
 def sorted_arr(n: int) -> tuple:
-    arr = [i for i in range(1, n + 1)]
+    """Функция вычисления времени и кол-ва перестановок для отсортированного массива"""
+    arr = [i for i in range(10, n + 11)]
     start_time = time.time()
     permutations = comb_sort(arr)
     end_time = time.time()
@@ -71,6 +73,7 @@ def sorted_arr(n: int) -> tuple:
 
 
 def reverse_sorted_arr(n: int) -> tuple:
+    """Функция вычисления времени и кол-ва перестановок для отсортированного в обратном порядке массива"""
     arr = [i for i in range(n, 0, -1)]
     start_time = time.time()
     permutations = comb_sort(arr)
@@ -80,25 +83,27 @@ def reverse_sorted_arr(n: int) -> tuple:
 
 
 def random_arr(n: int) -> tuple:
+    """Функция вычисления времени и кол-ва перестановок для случайного массива"""
     arr = [randint(-100000, 100000) for i in range(n)]
-    start_time = time.time()
+    start_time = time.time_ns()
     permutations = comb_sort(arr)
-    end_time = time.time()
+    end_time = time.time_ns()
     total_time = end_time - start_time
     return total_time, permutations
 
 
 def make_table(*args):
+    """Функция создания таблицы"""
     researches = [i for i in args]
     print('-' * 103)
     print('|' + ' ' * 20 + '|' + f'{"N1":^26}' + '|' + f'{"N2":^26}' + '|' + f'{"N3":^26}' + '|')
     print('-' * 103)
     print(
-        '|' + ' ' * 20 + '|' + f'{"время":^11}' + '|' + f'{"перестановки":^14}' + '|' + f'{"время":^11}' + '|' +
-        f"{'перестановки':^14}" + '|' + f'{"время":^11}' + '|' + f"{'перестановки':^14}" + '|')
+        '|' + ' ' * 20 + '|' + f'{"время (сек)":^11}' + '|' + f'{"перестановки":^14}' + '|' + f'{"время (сек)":^11}' + '|' +
+        f"{'перестановки':^14}" + '|' + f'{"время (сек)":^11}' + '|' + f"{'перестановки':^14}" + '|')
     print('-' * 103)
     print(
-        '|' + f'{"Упорядоченный":^20}' + '|' + f'{researches[0][0]:^11.5g}' + '|' + f'{researches[0][1]:^14.5g}' + '|'
+        '|' + f'{"Упорядоченный":^20}' + '|' + f'{researches[0][0]:^11}' + '|' + f'{researches[0][1]:^14.5g}' + '|'
         + f'{researches[1][0]:^11.5g}' + '|' + f"{researches[1][1]:^14.5g}" +
         '|' + f'{researches[2][0]:^11.5g}' + '|' + f"{researches[2][1]:^14.5g}" + '|')
     print('-' * 103)
